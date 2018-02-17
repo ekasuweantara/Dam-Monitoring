@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Monitoring Bendungan Umadesa | Dashboard</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/ionicons.min.css">
+  <link rel="stylesheet" href="/static/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+  <style>
+    .mySlides {display:none;}
+  </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+{% if session['logged_in'] %}
+{% include "admin/header.html" %}
+{% include "admin/navigator.html" %}
+
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Dashboard
+      </h1>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Monitoring Bendungan</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+
+                <div class="col-md-8">
+                  <div class="knob-label" style="font-size: 16pt;">
+                    Citra Bendungan <br />
+                    <span class="waktu_img"></span>
+                  </div>
+                  <p style="text-align:center"><img id="img" src="" style="width:500px"/>
+                  </p>
+
+                  <!-- <img src="" style="width:750px"> -->
+                </div>
+
+                <div class="col-md-4 text-center">
+                  <br /><br /><br /><br /><br /><br /><br />
+                  <input type="text" class="knob" value="0" data-width="250" data-height="250" data-fgColor="#39CCCC">
+                  <div class="knob-label" style="font-size: 16pt;">
+                    Ketinggian Air (cm) <br />
+                    <span class="waktu"></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "admin/footer.html" %}
+<script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/plugins/fastclick/fastclick.js"></script>
+<script src="/static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="/static/dist/js/app.min.js"></script>
+<script src="/static/plugins/knob/jquery.knob.js"></script>
+
+<script>
+imgVal();
+var server = 'http://localhost:5000';
+function imgVal(){
+  setTimeout(function(){
+    $.getJSON('http://localhost:5000/image_capture', function(data){
+      console.log(data);
+      $('span.waktu_img').text(waktu_img(data.waktu));
+      $('img#img').attr('src', server+data.path);
+      imgVal();
+    });
+  }, 1000);
+}
+
+function waktu_img(string){
+  var time = string.split(',');
+  jam = time[0].split('(');
+  detik = time[2].split(')');
+  // console.log(time)
+  return jam[1]+':'+time[1]+':'+detik[0]+' WITA';
+}
+
+
+$('.knob').knob({
+  min: 0,
+  max: 10,
+  step: 0.01,
+  readOnly: true
+});
+randomVal();
+function randomVal(){
+  setTimeout(function(){
+    $.getJSON('http://localhost:5000/tinggi_air', function(data){
+      // console.log(data);
+      $('span.waktu').text(waktu(data.waktu));
+      $('.knob').val(data.tinggi).trigger('change');
+      randomVal();
+    });
+  }, 1000);
+}
+
+function waktu(string){
+  var time = string.split(',');
+  jam = time[0].split('(');
+  detik = time[2].split(')');
+
+  return jam[1]+':'+time[1]+':'+detik[0]+' WITA';
+}
+</script>
+
+{% else %}
+<div class="alert alert-danger" role="alert" style="text-align:center">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong> Info!</strong> Untuk dapat mengakses web monitoring bendungan umadesa, diwajibkan untuk Login terlebih dahulu.<a href="login_admin"> Klik disini untuk login!!</a>
+</div>
+{% endif %}
+
+</body>
+</html>

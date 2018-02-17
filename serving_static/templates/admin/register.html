@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Monitoring Bendungan Umadesa | Register</title>
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+<style>
+  body {
+    background-color: Gainsboro;
+  }
+</style>
+<body style="padding-top:100px;padding-bottom:100px;">
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-4">
+        <div class="alert alert-info alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong> Info!</strong> Untuk membuat akun admin web monitoring bendungan umadesa, harus mengisikan identitas dibawah ini.
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <center><h3><span class="glyphicon glyphicon-user"></span> Registrasi Admin Bendungan Umadesa</h3></center>
+          </div>
+          <div class="panel-body">
+
+            <form onsubmit="return checkForm(this)" action="/register" name="form" method="post">
+            <div class="form-group has-feedback">
+              <input type="name" class="form-control" placeholder="Full name" name="nama" id="nama">
+              <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+              <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+              <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+              <input type="password" class="form-control" placeholder="Password" name="password" id="pwd1">
+              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+              <input type="password" class="form-control" placeholder="Retype password" name="password1" id="pwd2">
+              <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            </div>
+
+              <div class="panel-footer">
+                <button type="submit" name="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Register</button>
+
+                <div class="pull-right">
+                  <button type="reset" name="reset" class="btn btn-danger"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reset</button>
+                </div>
+              </div>
+              <a href="login_admin" class="text-center">Saya sudah mempunyai akun</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkForm(form){
+      if(form.nama.value == "") {
+        alert("Error: Username tidak boleh kosong!");
+        form.nama.focus();
+        return false;
+      }
+
+      else if(form.email.value == ""){
+        alert("Error: Email tidak boleh kosong!")
+        form.email.focus();
+        return false;
+      }
+
+      else if(form.password.value == ""){
+        alert("Error: Password tidak boleh kosong!")
+        form.password.focus();
+        return false;
+      }
+      if(document.getElementById("pwd1").value == document.getElementById("pwd2").value)
+      {
+        var data = $( this ).serialize();
+        console.log(data);
+        $.ajax({
+          url: '/register',
+          data: $('form').serialize(),
+          type: 'POST',
+          success: function(response) {
+              console.log(response);
+
+          },
+          error: function(error) {
+              console.log(error);
+          }
+        });
+      }
+       else
+       {
+           alert( "Password salah!!" );
+           form.password.focus();
+           return false;
+       }
+     }
+  </script>
+
+  <script src="/static/js/jquery-1.11.1.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/static/js/jquery-3.1.0.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Monitoring Bendungan Umadesa | Pengaturan</title>
+
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/ionicons.min.css">
+  <link rel="stylesheet" href="/static/plugins/ionslider/ion.rangeSlider.css">
+  <link rel="stylesheet" href="/static/plugins/ionslider/ion.rangeSlider.skinNice.css">
+  <link rel="stylesheet" href="/static/plugins/bootstrap-slider/slider.css">
+  <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+  {% include "admin/header.html" %}
+  {% include "admin/navigator.html" %}
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Pengaturan
+      </h1>
+    </section>
+
+    <form method="GET" name="form" action="/atur">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+
+            <div class="box-body">
+              <div class="row margin">
+                <div class="col-sm-6">
+                  <div class="box-header">
+                    <h2 class="box-title"><b>Ketinggian Air</b></h2>
+                  </div>
+                  <h4>Normal</h4>
+                  <div id="slidecontainer">
+                    <input type="range" min="1" max="200" value="50" class="slider" id="myRange" name="myRange">
+                    <p>Value: <span id="demo"></span></p>
+                  </div>
+                  <h4>Waspada</h4>
+                  <div id="slidecontainer">
+                    <input type="range" min="1" max="200" value="75" class="slider" id="myRange2" name="myRange2">
+                    <p>Value: <span id="demo2"></span></p>
+                  </div>
+                  <h4>Siaga</h4>
+                  <div id="slidecontainer">
+                    <input type="range" min="1" max="200" value="100" class="slider" id="myRange3" name="myRange3">
+                    <p>Value: <span id="demo3"></span></p>
+                  </div>
+                  <h4>Awas</h4>
+                  <div id="slidecontainer">
+                    <input type="range" min="1" max="200" value="125" class="slider" id="myRange4" name="myRange4">
+                    <p>Value: <span id="demo4"></span></p>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="box-header">
+                    <h2 class="box-title"><b>Image Capture</b></h2>
+                  </div>
+                  <h4>Threshold</h4>
+                  <div id="slidecontainer">
+                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange5" name="myRange5">
+                    <p>Value: <span id="demo5"></span></p>
+                  </div>
+
+                  <div class="box-header">
+                    <h2 class="box-title"><b>Kedalaman Bendungan</b></h2>
+                  </div>
+                  <div id="slidecontainer">
+                    <input type="range" min="1" max="200" value="100" class="slider" id="myRange6" name="myRange6">
+                    <p>Value: <span id="demo6"></span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-primary">
+            <div class="box-header">
+              <h3 class="box-title"><b>Pesan</b></h3>
+            </div>
+            <div class="box-body" style="position: relative;bottom:15px;">
+              <div class="form-group">
+                <select class="form-control" name="jenis" style="width : 14%;">
+                 <option value="0">Pilih jenis pesan</option>
+                  {% for o in data %}
+                    <option value="{{ o.jenis }}">{{ o.jenis }}</option>
+                  {% endfor %}
+                 <!-- <option value="1">Normal</option>
+                 <option value="2">Waspada</option>
+                 <option value="3">Siaga</option>
+                 <option value="4">Awas</option>
+                 <option value="5">Citra Bendungan</option> -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Text:</label>
+                <textarea class="form-control" rows="5" id="text" name="text"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" name="submit" class="btn btn-success" style="position: relative;left:950px;">Simpan Perubahan</button>
+    </section>
+  </form>
+  </div>
+</div>
+
+<script>
+  var slider = document.getElementById("myRange");
+  var output = document.getElementById("demo");
+
+  var slider2 = document.getElementById("myRange2")
+  var output2 = document.getElementById("demo2");
+
+  var slider3 = document.getElementById("myRange3")
+  var output3 = document.getElementById("demo3");
+
+  var slider4 = document.getElementById("myRange4")
+  var output4 = document.getElementById("demo4");
+
+  var slider5 = document.getElementById("myRange5")
+  var output5 = document.getElementById("demo5");
+
+  var slider6 = document.getElementById("myRange6")
+  var output6 = document.getElementById("demo6");
+
+
+  output.innerHTML = slider.value;
+  output2.innerHTML = slider2.value;
+  output3.innerHTML = slider3.value;
+  output4.innerHTML = slider4.value;
+  output5.innerHTML = (slider5.value/100);
+  output6.innerHTML = slider6.value;
+
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+
+  slider2.oninput = function() {
+    output2.innerHTML = this.value;
+  }
+
+  slider3.oninput = function() {
+    output3.innerHTML = this.value;
+  }
+
+  slider4.oninput = function() {
+    output4.innerHTML = this.value;
+  }
+
+  slider5.oninput = function() {
+    output5.innerHTML = (this.value/100);
+  }
+
+  slider6.oninput = function() {
+    output6.innerHTML = this.value;
+  }
+
+
+</script>
+<script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/plugins/fastclick/fastclick.js"></script>
+<script src="/static/dist/js/app.min.js"></script>
+<script src="/static/plugins/bootstrap-slider/bootstrap-slider.js"></script>
+<script src="/static/dist/js/demo.js"></script>
+<script src="/static/plugins/ionslider/ion.rangeSlider.min.js"></script>
+<script src="/static/plugins/bootstrap-slider/bootstrap-slider.js"></script>
+<script src="/static/js/script.js"></script>
+{% include "admin/footer.html" %}
+</body>
+</html>

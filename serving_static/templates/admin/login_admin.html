@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Monitoring Bendungan Umadesa | Log in</title>
+  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<style>
+  body {
+    background-color: Gainsboro;
+  }
+</style>
+<body style="padding-top:100px;padding-bottom:100px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-4">
+        <div class="alert alert-info alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong> Info!</strong> Untuk dapat mengakses web monitoring bendungan umadesa, diwajibkan untuk Login terlebih dahulu.
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <center><h3><span class="glyphicon glyphicon-user"></span> Login Admin Bendungan Umadesa</h3></center>
+          </div>
+          <div class="panel-body">
+            <form method="post" onsubmit="return checkForm(this)" name="form" action="/cek_login">
+
+              <div class="form-group has-feedback">
+                <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+              </div>
+
+              <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Password" name="password" id="password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+              </div>
+
+              <div class="panel-footer">
+                <button type="submit" name="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</button>
+                <div class="pull-right">
+                  <button type="reset" name="reset" class="btn btn-danger"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reset</button>
+                </div>
+              </div>
+              <a href="register_admin" class="text-center">Daftar Baru</a>
+            </form>
+          </div>
+        </div>
+        {% if pesan is defined %}
+        <div class="alert alert-info alert-dismissible" role="alert" id="message" style="text-align:center;">
+          <strong>{{pesan}}</strong>
+        </div>
+        {% else %}
+        <div></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkForm(form){
+      if(document.getElementById("email").value == "") {
+        alert("Error: Email tidak boleh kosong!");
+        form.email.focus();
+        return false;
+      }
+
+      else if(document.getElementById("password").value == ""){
+        alert("Error: Password tidak boleh kosong!")
+        form.password.focus();
+        return false;
+      }
+
+      else{
+        var data = $( this ).serialize();
+        console.log(data);
+        $.ajax({
+          url: '/cek_login',
+          data: $('form').serialize(),
+          type: 'POST',
+          success: function(response) {
+              console.log(response);
+
+          },
+          error: function(error) {
+              console.log(error);
+          }
+        });
+      }
+    }
+  </script>
+  <script src="/static/js/jquery-1.12.4.min.js"></script>
+  <script>
+    $( document ).ready(function(){
+        $('#message').fadeIn('slow', function(){
+           $('#message').delay(1000).fadeOut();
+        });
+    });
+  </script>
+  <script src="/static/js/jquery-1.11.1.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

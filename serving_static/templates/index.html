@@ -1,0 +1,132 @@
+<!-- templates/index.html -->
+<html>
+  <head>
+    <title>Bendungan | Umadesa</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <style>
+
+  </style>
+  <body>
+    <div class="row" style="background:DarkCyan">
+        <nav class="navbar navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <h2 style="color:white"><b>Monitoring Bendungan Umadesa</b></h2>
+            </div>
+          </div>
+        </nav>
+    </div>
+
+
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-8 text-center">
+                  <div class="knob-label" style="font-size: 16pt;">
+                    <p style="text-align:center"><span class="waktu_img"></span></p>
+                  </div>
+                  <img id="img" src="" style="width:550px" align="middle">
+                  <!-- <img src="" style="width:750px"> -->
+                </div>
+
+                <div class="col-md-4 text-center">
+                  <br /><br /><br /><br /><br /><br /><br />
+                  <input type="text" class="knob" value="0" data-width="250" data-height="250" data-fgColor="#39CCCC">
+                  <div class="knob-label" style="font-size: 16pt;">
+                    Ketinggian Air (cm) <br />
+                    <span class="waktu"></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <div class="row" style="background-color:white;">
+    <div class="container" style="position:absolute; bottom:0px;">
+
+      <footer style="">
+        <div class="container">
+          <div class="pull-right hidden-xs" style="position:absolute; left:1300px;">
+            <b>Version:</b>1.0
+          </div>
+          <strong>Copyright &copy; 2017-2018 <a href="http://cs.unud.ac.id">Eka Suweantara</a>.</strong> All rights
+          reserved.
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+  <script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+  <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/static/plugins/fastclick/fastclick.js"></script>
+  <script src="/static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+  <script src="/static/dist/js/app.min.js"></script>
+  <script src="/static/plugins/knob/jquery.knob.js"></script>
+  <script>
+  imgVal();
+  var server = 'http://localhost:5000';
+  function imgVal(){
+    setTimeout(function(){
+      $.getJSON('http://localhost:5000/image_capture', function(data){
+        console.log(data);
+        $('span.waktu_img').text(waktu_img(data.waktu));
+        $('img#img').attr('src', server+data.path);
+        imgVal();
+      });
+    }, 1000);
+  }
+
+  function waktu_img(string){
+    var time = string.split(',');
+    jam = time[0].split('(');
+    detik = time[2].split(')');
+    // console.log(time)
+    return jam[1]+':'+time[1]+':'+detik[0]+' WITA';
+  }
+
+
+  $('.knob').knob({
+    min: 0,
+    max: 10,
+    step: 0.01,
+    readOnly: true
+  });
+  randomVal();
+  function randomVal(){
+    setTimeout(function(){
+      $.getJSON('http://localhost:5000/tinggi_air', function(data){
+        // console.log(data);
+        $('span.waktu').text(waktu(data.waktu));
+        $('.knob').val(data.tinggi).trigger('change');
+        randomVal();
+      });
+    }, 1000);
+  }
+
+  function waktu(string){
+    var time = string.split(',');
+    jam = time[0].split('(');
+    detik = time[2].split(')');
+
+    return jam[1]+':'+time[1]+':'+detik[0]+' WITA';
+  }
+  </script>
+
+
+  </body>
+</html>

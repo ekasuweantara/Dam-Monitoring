@@ -1,0 +1,91 @@
+{% if session['jenis'] == 2 %}
+  <aside class="main-sidebar">
+        <section class="sidebar">
+          <ul class="sidebar-menu">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="treeview">
+              <a href="dashboard">
+                <i class="glyphicon glyphicon-dashboard"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+
+            <!-- <li class="treeview">
+              <a href="ketinggian_air">
+                <i class="glyphicon glyphicon-stats"></i>
+                <span>Data Ketinggian Air</span>
+              </a>
+            </li> -->
+
+            <li class="treeview">
+              <a href="kontak">
+                <i class="glyphicon glyphicon-phone"></i>
+                <span>Data Kontak</span>
+              </a>
+            </li>
+
+            <li class="treeview">
+              <a href="verifikasi">
+                <i class="glyphicon glyphicon-check"></i>
+                <span>Verifikasi</span>
+              </a>
+            </li>
+
+            <li class="treeview">
+              <a href="pengaturan">
+                <i class="glyphicon glyphicon-wrench"></i>
+                <span>Pengaturan</span>
+              </a>
+            </li>
+
+            <li class="treeview">
+              <a href="logout">
+                <i class="glyphicon glyphicon-off"></i><span> Keluar</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </aside>
+
+{% else %}
+<aside class="main-sidebar">
+      <section class="sidebar">
+        <ul class="sidebar-menu">
+          <li class="header">MAIN NAVIGATION</li>
+          <li class="treeview">
+            <a href="dashboard">
+              <i class="glyphicon glyphicon-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <!-- <li class="treeview">
+            <a href="ketinggian_air">
+              <i class="glyphicon glyphicon-stats"></i>
+              <span>Data Ketinggian Air</span>
+            </a>
+          </li> -->
+
+          <li class="treeview">
+            <a href="kontak">
+              <i class="glyphicon glyphicon-phone"></i>
+              <span>Data Kontak</span>
+            </a>
+          </li>
+
+          <li class="treeview">
+            <a href="pengaturan">
+              <i class="glyphicon glyphicon-wrench"></i>
+              <span>Pengaturan</span>
+            </a>
+          </li>
+
+          <li class="treeview">
+            <a href="logout">
+              <i class="glyphicon glyphicon-off"></i><span> Keluar</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </aside>
+{% endif %}

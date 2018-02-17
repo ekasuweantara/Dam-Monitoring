@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Monitoring Bendungan Umadesa | Kontak</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/ionicons.min.css">
+  <link rel="stylesheet" href="/static/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+  <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
+  <style>
+    table, th, td {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+    }
+    th {
+        text-align: left;
+    }
+    td{
+      width: 30%;
+    }
+  </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+{% include "admin/header.html" %}
+{% include "admin/navigator.html" %}
+
+
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Data Akun Petugas ( Belum di Verifikasi )
+      </h1>
+    </section>
+
+    <section class="content">
+      <div class="table-responsive">
+        <table class="table" style="width:90%">
+          <tr>
+            <th>Nama</th>
+            <th>Email</th>
+            <th style="text-align : center">Aksi</th>
+          </tr>
+          {% for row in data:%}
+          {% if row[4] == 0%}
+          <tr>
+            <td><h4>{{row[1]}}</h4></td>
+            <td><h4>{{row[2]}}</h4></td>
+            <td style="text-align : center"><button type='button' class='btn btn-primary' data-toggle='tooltip' title='Terima' id="{{row[0]}}" onclick='terima(this.id)'><span class='glyphicon glyphicon-ok'></span></button>
+              <button type='button' class='btn btn-danger' data-toggle='tooltip' title='Hapus' id="{{row[0]}}" onclick='hapus(this.id)'><span class='glyphicon glyphicon-trash'></span></button></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+
+    <section class="content-header">
+      <h1>
+        Data Akun Petugas ( Sudah di Verifikasi )
+      </h1>
+    </section>
+
+    <section class="content">
+      <div class="table-responsive">
+        <table class="table" style="width:90%">
+          <tr>
+            <th>Nama</th>
+            <th>Email</th>
+            <th style="text-align : center">Aksi</th>
+          </tr>
+          {% for row in data:%}
+          {% if row[4] == 1 %}
+          <tr>
+            <td><h4>{{row[1]}}</h4></td>
+            <td><h4>{{row[2]}}</h4></td>
+            <td style="text-align : center">
+              <button type='button' class='btn btn-danger' data-toggle='tooltip' title='Hapus' id="{{row[0]}}" onclick='hapus(this.id)'><span class='glyphicon glyphicon-trash'></span></button></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  function terima(clicked_id){
+    var msg;
+    msg= "Apakah anda yakin ingin verifikasi data ini ? " ;
+    var agree=confirm(msg);
+    if(agree)
+      $.ajax({
+          type : "GET",
+          url : '{{ url_for('verifikasi_diterima') }}',
+          data: {data_id: clicked_id},
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+            if (result == "success"){
+              location.reload();
+            }
+            console.log(result);
+          }
+      });
+      else
+        return false ;
+  }
+
+  function hapus(clicked_id){
+    var msg;
+    msg= "Apakah anda yakin ingin menghapus data ini ? " ;
+    var agree=confirm(msg);
+    if(agree)
+      $.ajax({
+          type : "GET",
+          url : '{{ url_for('verifikasi_ditolak') }}',
+          data: {data_id: clicked_id},
+          contentType: 'application/json;charset=UTF-8',
+          success: function(result) {
+            if (result == "success"){
+              location.reload();
+            }
+            console.log(result);
+          }
+      });
+    else
+      return false ;
+  }
+</script>
+
+{% include "admin/footer.html" %}
+<script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/plugins/fastclick/fastclick.js"></script>
+<script src="/static/dist/js/app.min.js"></script>
+<script src="/static/plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="/static/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/static/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="/static/plugins/chartjs/Chart.min.js"></script>
+<script src="/static/dist/js/demo.js"></script>
+
+</body>
+</html>
